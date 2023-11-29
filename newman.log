@@ -1,0 +1,451 @@
+newman
+
+Bookshelf API Test
+
+→ [Mandatory] Add Book With Complete Data
+  POST http://localhost:9000/books [400 Bad Request, 317B, 28ms]
+  1. status code should be 201
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  2. response body should have correct property and value
+  3. response body data should contain bookId
+
+→ [Mandatory] Add Book With Finished Reading
+  POST http://localhost:9000/books [400 Bad Request, 317B, 5ms]
+  4. status code should be 201
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  5. response body should have correct property and value
+  6. response body data should contain bookId
+
+→ [Mandatory] Add Book Without Name
+  POST http://localhost:9000/books [400 Bad Request, 317B, 4ms]
+  ✓  status code should be 400
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  ✓  response body should have correct property and value
+
+→ [Mandatory] Add Book with Page Read More Than Page Count
+  POST http://localhost:9000/books [400 Bad Request, 317B, 3ms]
+  ✓  status code should be 400
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  7. response body should have correct property and value
+
+→ [Mandatory] Get All Books
+  GET http://localhost:9000/books [200 OK, 528B, 4ms]
+  ✓  status code should be 200
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  ✓  response body object should have correct property and value
+  8. response body data object should have a array books and contains two items
+  ✓  the books should have contains only id, name, and publisher property
+
+→ [Mandatory] Get Detail Books With Correct Id
+  GET http://localhost:9000/books/ [200 OK, 528B, 3ms]
+  ✓  response code should be 200
+  ✓  response header Content-Type should be application/json
+  ✓  response body should an object
+  ✓  response body object should contain correct property and value
+  9. response body data object should contain book object
+ 10. book object should contain correct property and value
+
+→ [Mandatory] Get Detail Finished Book
+  GET http://localhost:9000/books/ [200 OK, 528B, 2ms]
+  ✓  response code should be 200
+  ✓  response header Content-Type should be application/json
+  ✓  response body should an object
+  ✓  response body object should contain correct property and value
+ 11. response body data object should contain book object
+ 12. book object should contain correct property and value
+
+→ [Mandatory] Get Detail Books With Invalid Id
+  GET http://localhost:9000/books/xxxxx [404 Not Found, 292B, 6ms]
+  ✓  response code should be 404
+  ✓  response header Content-Type should be application/json
+  ✓  response body should an object
+  ✓  response body object should contain correct property and value
+
+→ [Mandatory] Update Book With Complete Data
+  PUT http://localhost:9000/books/ [404 Not Found, 417B, 12ms]
+ 13. status code should be 200
+ 14. response header Content-Type should be application/json
+ 15. response body should be an object
+ 16. response body should have correct property and value
+  ✓  when get detail books
+  GET http://localhost:9000/books/ [200 OK, 528B, 7ms]
+ 17. book object should contain updated values
+
+→ [Mandatory] Update Book Without Name
+  PUT http://localhost:9000/books/ [404 Not Found, 417B, 2ms]
+ 18. status code should be 400
+ 19. response header Content-Type should be application/json
+ 20. response body should be an object
+ 21. response body should have correct property and value
+
+→ [Mandatory] Update Book With Page Read More Than Page Count
+  PUT http://localhost:9000/books/ [404 Not Found, 417B, 3ms]
+ 22. status code should be 400
+ 23. response header Content-Type should be application/json
+ 24. response body should be an object
+ 25. response body should have correct property and value
+
+→ [Mandatory] Update Book with Invalid Id
+  PUT http://localhost:9000/books/xxxxx [400 Bad Request, 317B, 8ms]
+ 26. status code should be 404
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+ 27. response body should have correct property and value
+
+→ [Mandatory] Delete Book with Correct Id
+  DELETE http://localhost:9000/books/ [404 Not Found, 420B, 29ms]
+ 28. status code should be 200
+ 29. response header Content-Type should be application/json
+ 30. response body should be an object
+ 31. response body should have correct property and value
+  ✓  when get detail books
+  GET http://localhost:9000/books/ [200 OK, 528B, 9ms]
+ 32. The book should be not found
+
+→ [Mandatory] Delete Finished book
+  DELETE http://localhost:9000/books/ [404 Not Found, 420B, 2ms]
+ 33. status code should be 200
+ 34. response header Content-Type should be application/json
+ 35. response body should be an object
+ 36. response body should have correct property and value
+  ✓  when get detail books
+  GET http://localhost:9000/books/ [200 OK, 528B, 3ms]
+ 37. The book should be not found
+
+→ [Mandatory] Delete Book with Invalid Id
+  DELETE http://localhost:9000/books/xxxxx [404 Not Found, 310B, 4ms]
+  ✓  status code should be 404
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  ✓  response body should have correct property and value
+
+→ Add Reading and Finished Book
+  POST http://localhost:9000/books [400 Bad Request, 317B, 3ms]
+
+→ Add Reading and Unfinished Book with "Dicoding" Name
+  POST http://localhost:9000/books [400 Bad Request, 317B, 2ms]
+
+→ Add Unreading Books and Unfinished Book "Dicoding" Name
+  POST http://localhost:9000/books [400 Bad Request, 317B, 2ms]
+
+→ Add Unreading Books and Unfinished Book
+  POST http://localhost:9000/books [400 Bad Request, 317B, 2ms]
+
+→ [Optional] Get All Reading Books
+  GET http://localhost:9000/books?reading=1 [200 OK, 275B, 2ms]
+  ✓  status code should be 200
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  ✓  response body object should have correct property and value
+ 38. response body data object should have a array books and contains 2 items
+  ✓  the books should have contains only id, name, and publisher property
+
+→ [Optional] Get All Unreading Books
+  GET http://localhost:9000/books?reading=0 [200 OK, 275B, 3ms]
+  ✓  status code should be 200
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  ✓  response body object should have correct property and value
+ 39. response body data object should have a array books and contains at 2 items
+  ✓  the books should have contains only id, name, and publisher property
+
+→ [Optional] Get All Finished Books
+  GET http://localhost:9000/books?finished=1 [200 OK, 275B, 5ms]
+  ✓  status code should be 200
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  ✓  response body object should have correct property and value
+ 40. response body data object should have a array books and contains 1 items
+  ✓  the books should have contains only id, name, and publisher property
+
+→ [Optional] Get All Unfinished Books
+  GET http://localhost:9000/books?finished=0 [200 OK, 528B, 2ms]
+  ✓  status code should be 200
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  ✓  response body object should have correct property and value
+ 41. response body data object should have a array books and contains 3 items
+  ✓  the books should have contains only id, name, and publisher property
+
+→ [Optional] Get All Books Contains "Dicoding" Name
+  GET http://localhost:9000/books?name=Dicoding [200 OK, 275B, 3ms]
+  ✓  status code should be 200
+  ✓  response header Content-Type should be application/json
+  ✓  response body should be an object
+  ✓  response body object should have correct property and value
+ 42. response body data object should have a array books and contains 2 items
+  ✓  the books should have contains only id, name, and publisher property
+  GET http://localhost:9000/books [200 OK, 528B, 2ms]
+  DELETE http://localhost:9000/books/XB0K0KC4B_UqW6wg   DELETE http://localhost:9000/books/dk3JsXZ49Lkm0Nwj   DELETE http://localhost:9000/books/stoDLbG0Sp_ZzcPs   DELETE http://localhost:9000/books/BV5i6GdGC92PvXc7 [200 OK, 289B, 6ms]
+  ┌
+  │ 'Book XB0K0KC4B_UqW6wg deleted'
+  └
+[200 OK, 289B, 11ms]
+  ┌
+  │ 'Book stoDLbG0Sp_ZzcPs deleted'
+  └
+[200 OK, 289B, 25ms]
+  ┌
+  │ 'Book dk3JsXZ49Lkm0Nwj deleted'
+  └
+[200 OK, 289B, 27ms]
+  ┌
+  │ 'Book BV5i6GdGC92PvXc7 deleted'
+  └
+
+[90m┌─────────────────────────[39m[90m┬─────────────────[39m[90m┬─────────────────┐[39m
+[90m│[39m                         [90m│[39m        executed [90m│[39m          failed [90m│[39m
+[90m├─────────────────────────[39m[90m┼─────────────────[39m[90m┼─────────────────┤[39m
+[90m│[39m              iterations [90m│[39m               1 [90m│[39m               0 [90m│[39m
+[90m├─────────────────────────[39m[90m┼─────────────────[39m[90m┼─────────────────┤[39m
+[90m│[39m                requests [90m│[39m              32 [90m│[39m               0 [90m│[39m
+[90m├─────────────────────────[39m[90m┼─────────────────[39m[90m┼─────────────────┤[39m
+[90m│[39m            test-scripts [90m│[39m              48 [90m│[39m               0 [90m│[39m
+[90m├─────────────────────────[39m[90m┼─────────────────[39m[90m┼─────────────────┤[39m
+[90m│[39m      prerequest-scripts [90m│[39m              26 [90m│[39m               0 [90m│[39m
+[90m├─────────────────────────[39m[90m┼─────────────────[39m[90m┼─────────────────┤[39m
+[90m│[39m              assertions [90m│[39m             104 [90m│[39m              42 [90m│[39m
+[90m├─────────────────────────┴─────────────────┴─────────────────┤[39m
+[90m│[39m total run duration: 1377ms                                  [90m│[39m
+[90m├─────────────────────────────────────────────────────────────┤[39m
+[90m│[39m total data received: 4.21kB (approx)                        [90m│[39m
+[90m├─────────────────────────────────────────────────────────────┤[39m
+[90m│[39m average response time: 7ms [min: 2ms, max: 29ms, s.d.: 8ms] [90m│[39m
+[90m└─────────────────────────────────────────────────────────────┘[39m
+
+[31m   # [39m[31m failure        [39m[31m detail                                                                                              [39m
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 01.  AssertionError  status code should be 201                                                                           
+                      expected response to have status code 201 but got 400                                               
+                      at assertion:0 in test-script                                                                       
+                      inside "[Mandatory] Add Book With Complete Data"                                                    
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 02.  AssertionError  response body should have correct property and value                                                
+                      expected { status: 'fail', …(1) } to have own property 'data'                                       
+                      at assertion:3 in test-script                                                                       
+                      inside "[Mandatory] Add Book With Complete Data"                                                    
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 03.  AssertionError  response body data should contain bookId                                                            
+                      Target cannot be null or undefined.                                                                 
+                      at assertion:4 in test-script                                                                       
+                      inside "[Mandatory] Add Book With Complete Data"                                                    
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 04.  AssertionError  status code should be 201                                                                           
+                      expected response to have status code 201 but got 400                                               
+                      at assertion:0 in test-script                                                                       
+                      inside "[Mandatory] Add Book With Finished Reading"                                                 
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 05.  AssertionError  response body should have correct property and value                                                
+                      expected { status: 'fail', …(1) } to have own property 'data'                                       
+                      at assertion:3 in test-script                                                                       
+                      inside "[Mandatory] Add Book With Finished Reading"                                                 
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 06.  AssertionError  response body data should contain bookId                                                            
+                      Target cannot be null or undefined.                                                                 
+                      at assertion:4 in test-script                                                                       
+                      inside "[Mandatory] Add Book With Finished Reading"                                                 
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 07.  AssertionError  response body should have correct property and value                                                
+                      expected 'Gagal menambahkan buku. Mohon isi nam…' to equal 'Gagal menambahkan buku. readPage tida…' 
+                      at assertion:3 in test-script                                                                       
+                      inside "[Mandatory] Add Book with Page Read More Than Page Count"                                   
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 08.  AssertionError  response body data object should have a array books and contains two items                          
+                      expected [ …(4) ] to have a length of 2 but got 4                                                   
+                      at assertion:4 in test-script                                                                       
+                      inside "[Mandatory] Get All Books"                                                                  
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 09.  AssertionError  response body data object should contain book object                                                
+                      expected { books: [ { …(3) }, { …(3) }, …(2) ] } to have own property 'book'                        
+                      at assertion:4 in test-script                                                                       
+                      inside "[Mandatory] Get Detail Books With Correct Id"                                               
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 10.  AssertionError  book object should contain correct property and value                                               
+                      Target cannot be null or undefined.                                                                 
+                      at assertion:5 in test-script                                                                       
+                      inside "[Mandatory] Get Detail Books With Correct Id"                                               
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 11.  AssertionError  response body data object should contain book object                                                
+                      expected { books: [ { …(3) }, { …(3) }, …(2) ] } to have own property 'book'                        
+                      at assertion:4 in test-script                                                                       
+                      inside "[Mandatory] Get Detail Finished Book"                                                       
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 12.  AssertionError  book object should contain correct property and value                                               
+                      Target cannot be null or undefined.                                                                 
+                      at assertion:5 in test-script                                                                       
+                      inside "[Mandatory] Get Detail Finished Book"                                                       
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 13.  AssertionError  status code should be 200                                                                           
+                      expected response to have status code 200 but got 404                                               
+                      at assertion:0 in test-script                                                                       
+                      inside "[Mandatory] Update Book With Complete Data"                                                 
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 14.  AssertionError  response header Content-Type should be application/json                                             
+                      expected 'text/html; charset=utf-8' to equal 'application/json; charset=utf-8'                      
+                      at assertion:1 in test-script                                                                       
+                      inside "[Mandatory] Update Book With Complete Data"                                                 
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 15.  JSONError       response body should be an object                                                                   
+                      Unexpected token '<' at 1:1                                                                         
+                      <!DOCTYPE html>                                                                                     
+                      ^                                                                                                   
+                      at assertion:2 in test-script                                                                       
+                      inside "[Mandatory] Update Book With Complete Data"                                                 
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 16.  JSONError       response body should have correct property and value                                                
+                      Unexpected token '<' at 1:1                                                                         
+                      <!DOCTYPE html>                                                                                     
+                      ^                                                                                                   
+                      at assertion:3 in test-script                                                                       
+                      inside "[Mandatory] Update Book With Complete Data"                                                 
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 17.  AssertionError  book object should contain updated values                                                           
+                      Target cannot be null or undefined.                                                                 
+                      at assertion:5 in test-script                                                                       
+                      inside "[Mandatory] Update Book With Complete Data"                                                 
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 18.  AssertionError  status code should be 400                                                                           
+                      expected response to have status code 400 but got 404                                               
+                      at assertion:0 in test-script                                                                       
+                      inside "[Mandatory] Update Book Without Name"                                                       
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 19.  AssertionError  response header Content-Type should be application/json                                             
+                      expected 'text/html; charset=utf-8' to equal 'application/json; charset=utf-8'                      
+                      at assertion:1 in test-script                                                                       
+                      inside "[Mandatory] Update Book Without Name"                                                       
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 20.  JSONError       response body should be an object                                                                   
+                      Unexpected token '<' at 1:1                                                                         
+                      <!DOCTYPE html>                                                                                     
+                      ^                                                                                                   
+                      at assertion:2 in test-script                                                                       
+                      inside "[Mandatory] Update Book Without Name"                                                       
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 21.  JSONError       response body should have correct property and value                                                
+                      Unexpected token '<' at 1:1                                                                         
+                      <!DOCTYPE html>                                                                                     
+                      ^                                                                                                   
+                      at assertion:3 in test-script                                                                       
+                      inside "[Mandatory] Update Book Without Name"                                                       
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 22.  AssertionError  status code should be 400                                                                           
+                      expected response to have status code 400 but got 404                                               
+                      at assertion:0 in test-script                                                                       
+                      inside "[Mandatory] Update Book With Page Read More Than Page Count"                                
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 23.  AssertionError  response header Content-Type should be application/json                                             
+                      expected 'text/html; charset=utf-8' to equal 'application/json; charset=utf-8'                      
+                      at assertion:1 in test-script                                                                       
+                      inside "[Mandatory] Update Book With Page Read More Than Page Count"                                
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 24.  JSONError       response body should be an object                                                                   
+                      Unexpected token '<' at 1:1                                                                         
+                      <!DOCTYPE html>                                                                                     
+                      ^                                                                                                   
+                      at assertion:2 in test-script                                                                       
+                      inside "[Mandatory] Update Book With Page Read More Than Page Count"                                
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 25.  JSONError       response body should have correct property and value                                                
+                      Unexpected token '<' at 1:1                                                                         
+                      <!DOCTYPE html>                                                                                     
+                      ^                                                                                                   
+                      at assertion:3 in test-script                                                                       
+                      inside "[Mandatory] Update Book With Page Read More Than Page Count"                                
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 26.  AssertionError  status code should be 404                                                                           
+                      expected response to have status code 404 but got 400                                               
+                      at assertion:0 in test-script                                                                       
+                      inside "[Mandatory] Update Book with Invalid Id"                                                    
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 27.  AssertionError  response body should have correct property and value                                                
+                      expected 'Gagal memperbarui buku. Mohon isi nam…' to equal 'Gagal memperbarui buku. Id tidak dite…' 
+                      at assertion:3 in test-script                                                                       
+                      inside "[Mandatory] Update Book with Invalid Id"                                                    
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 28.  AssertionError  status code should be 200                                                                           
+                      expected response to have status code 200 but got 404                                               
+                      at assertion:0 in test-script                                                                       
+                      inside "[Mandatory] Delete Book with Correct Id"                                                    
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 29.  AssertionError  response header Content-Type should be application/json                                             
+                      expected 'text/html; charset=utf-8' to equal 'application/json; charset=utf-8'                      
+                      at assertion:1 in test-script                                                                       
+                      inside "[Mandatory] Delete Book with Correct Id"                                                    
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 30.  JSONError       response body should be an object                                                                   
+                      Unexpected token '<' at 1:1                                                                         
+                      <!DOCTYPE html>                                                                                     
+                      ^                                                                                                   
+                      at assertion:2 in test-script                                                                       
+                      inside "[Mandatory] Delete Book with Correct Id"                                                    
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 31.  JSONError       response body should have correct property and value                                                
+                      Unexpected token '<' at 1:1                                                                         
+                      <!DOCTYPE html>                                                                                     
+                      ^                                                                                                   
+                      at assertion:3 in test-script                                                                       
+                      inside "[Mandatory] Delete Book with Correct Id"                                                    
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 32.  AssertionError  The book should be not found                                                                        
+                      expected 200 to equal 404                                                                           
+                      at assertion:5 in test-script                                                                       
+                      inside "[Mandatory] Delete Book with Correct Id"                                                    
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 33.  AssertionError  status code should be 200                                                                           
+                      expected response to have status code 200 but got 404                                               
+                      at assertion:0 in test-script                                                                       
+                      inside "[Mandatory] Delete Finished book"                                                           
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 34.  AssertionError  response header Content-Type should be application/json                                             
+                      expected 'text/html; charset=utf-8' to equal 'application/json; charset=utf-8'                      
+                      at assertion:1 in test-script                                                                       
+                      inside "[Mandatory] Delete Finished book"                                                           
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 35.  JSONError       response body should be an object                                                                   
+                      Unexpected token '<' at 1:1                                                                         
+                      <!DOCTYPE html>                                                                                     
+                      ^                                                                                                   
+                      at assertion:2 in test-script                                                                       
+                      inside "[Mandatory] Delete Finished book"                                                           
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 36.  JSONError       response body should have correct property and value                                                
+                      Unexpected token '<' at 1:1                                                                         
+                      <!DOCTYPE html>                                                                                     
+                      ^                                                                                                   
+                      at assertion:3 in test-script                                                                       
+                      inside "[Mandatory] Delete Finished book"                                                           
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 37.  AssertionError  The book should be not found                                                                        
+                      expected 200 to equal 404                                                                           
+                      at assertion:5 in test-script                                                                       
+                      inside "[Mandatory] Delete Finished book"                                                           
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 38.  AssertionError  response body data object should have a array books and contains 2 items                            
+                      expected [] to have a length of 2 but got +0                                                        
+                      at assertion:4 in test-script                                                                       
+                      inside "[Optional] Get All Reading Books"                                                           
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 39.  AssertionError  response body data object should have a array books and contains at 2 items                         
+                      expected [] to have a length of 2 but got +0                                                        
+                      at assertion:4 in test-script                                                                       
+                      inside "[Optional] Get All Unreading Books"                                                         
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 40.  AssertionError  response body data object should have a array books and contains 1 items                            
+                      expected [] to have a length of 1 but got +0                                                        
+                      at assertion:4 in test-script                                                                       
+                      inside "[Optional] Get All Finished Books"                                                          
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 41.  AssertionError  response body data object should have a array books and contains 3 items                            
+                      expected [ …(4) ] to have a length of 3 but got 4                                                   
+                      at assertion:4 in test-script                                                                       
+                      inside "[Optional] Get All Unfinished Books"                                                        
+[90m     [39m[90m                [39m[90m                                                                                                     [39m
+ 42.  AssertionError  response body data object should have a array books and contains 2 items                            
+                      expected [] to have a length of 2 but got +0                                                        
+                      at assertion:4 in test-script                                                                       
+                      inside "[Optional] Get All Books Contains "Dicoding" Name"                                          
