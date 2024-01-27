@@ -6,15 +6,39 @@ import Container from 'typedi';
 export class BookController {
   public book = Container.get(BookService);
 
-  public getBooks = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const findAllBooksData = await this.book.findAllBook();
+  // filteringBooks = async (req: RequestWithUser | Request, next: NextFunction) => {
+  //   const { name, reading, finished } = req.query;
+  //   const user = req.user;
+  //   const findAllBooksData = await this.book.findAllBook(user);
+  //   let filteredBooks = findAllBooksData;
 
-      res.status(200).json({ data: findAllBooksData, message: 'findAll' });
-    } catch (error) {
-      next(error);
-    }
-  };
+  //   if (name) {
+  //     filteredBooks = filteredBooks.filter(book => {
+  //       const bookName: string = book.title.toLowerCase();
+  //       return bookName.includes(name.toString().toLowerCase());
+  //     });
+  //   }
+
+  //   if (reading) {
+  //     filteredBooks = filteredBooks.filter(book => book.reading === (reading === '1'));
+  //   }
+
+  //   if (finished) {
+  //     filteredBooks = filteredBooks.filter(book => book.finished === (finished === '1'));
+  //   }
+
+  //   return filteredBooks;
+  // };
+
+  // public getBooks = async (req: Request, res: Response, next: NextFunction) => {
+  //   try {
+  //     const findAllBooksData = await this.book.findAllBook();
+
+  //     res.status(200).json({ data: findAllBooksData, message: 'findAll' });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
 
   public getMyBooks = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {

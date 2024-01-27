@@ -1,6 +1,6 @@
 {
   "name": "06-bookshelf-web",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "TypeScript + Mongoose + MongoDB + Express API Server",
   "author": "",
   "license": "ISC",
