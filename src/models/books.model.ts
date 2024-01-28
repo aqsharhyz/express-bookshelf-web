@@ -53,6 +53,11 @@ const BookSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    // category: {
+    //   type: String,
+    //   trim: true,
+    //   default: 'Other',
+    // },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',

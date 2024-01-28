@@ -3,25 +3,30 @@ import { Book } from '@/interfaces/books.interface';
 import { BookModel } from '@/models/books.model';
 import { User } from '@/interfaces/users.interface';
 import { HttpException } from '@/exceptions/HttpException';
+import { bookQuery } from '@/interfaces/bookQuery.interface';
 
 @Service()
 export class BookService {
-  public async findAllBook(user?: User): Promise<Book[]> {
-    let books: Book[];
-    if (user) {
-      const queryObject = {
-        createdBy: user._id,
-      };
-      books = await BookModel.find(queryObject);
-      return books;
-    }
-    books = await BookModel.find();
-    return books;
+  public async findAllBook(queryObject?: bookQuery, user?: User): Promise<Book[]> {
+    user ? (queryObject.createdBy = user._id) : queryObject;
+    const books: any[] = await BookModel.find(queryObject).populate('createdBy');
+
+    const booksData: Book[] = books.map(book => {
+      const bookData = book.toObject();
+      bookData.createdBy = book.createdBy.name;
+      return bookData;
+    });
+
+    return booksData;
   }
 
-  public async findBookById(user: User, bookId: string): Promise<Book> {
-    const findBook: Book = await BookModel.findOne({ _id: bookId, createdBy: user._id });
+  public async findBookById(user: User, bookId: string): Promise<any> {
+    let findBook: any = await BookModel.findOne({ _id: bookId, createdBy: user._id }).populate('createdBy');
     if (!findBook) throw new HttpException(409, "Book doesn't exist");
+
+    const findBookData = findBook.toObject();
+    findBookData.createdBy = findBook.createdBy.name;
+    findBook = findBookData;
 
     return findBook;
   }

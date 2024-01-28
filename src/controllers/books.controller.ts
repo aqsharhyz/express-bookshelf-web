@@ -1,4 +1,5 @@
 import { RequestWithUser } from '@/interfaces/auth.interface';
+import { bookQuery } from '@/interfaces/bookQuery.interface';
 import { BookService } from '@/services/books.service';
 import { NextFunction, Request, Response } from 'express';
 import Container from 'typedi';
@@ -6,46 +7,39 @@ import Container from 'typedi';
 export class BookController {
   public book = Container.get(BookService);
 
-  // filteringBooks = async (req: RequestWithUser | Request, next: NextFunction) => {
-  //   const { name, reading, finished } = req.query;
-  //   const user = req.user;
-  //   const findAllBooksData = await this.book.findAllBook(user);
-  //   let filteredBooks = findAllBooksData;
+  filteringBooks = async (req: RequestWithUser | Request): Promise<bookQuery> => {
+    const { title, author, publisher, reading, finished } = req.query;
+    // year, readPage, pageCount, createdBy
+    const queryObject: bookQuery = {};
+    if (title) queryObject.title = { $regex: title, $options: 'i' };
+    if (author) queryObject.author = { $regex: author, $options: 'i' };
+    if (publisher) queryObject.publisher = { $regex: publisher, $options: 'i' };
+    if (reading && reading !== 'all') queryObject.reading = reading;
+    if (finished && finished !== 'all') queryObject.finished = finished;
 
-  //   if (name) {
-  //     filteredBooks = filteredBooks.filter(book => {
-  //       const bookName: string = book.title.toLowerCase();
-  //       return bookName.includes(name.toString().toLowerCase());
-  //     });
-  //   }
+    return queryObject;
+  };
 
-  //   if (reading) {
-  //     filteredBooks = filteredBooks.filter(book => book.reading === (reading === '1'));
-  //   }
+  sortingBooks = async (req: RequestWithUser | Request): Promise<any> => {};
 
-  //   if (finished) {
-  //     filteredBooks = filteredBooks.filter(book => book.finished === (finished === '1'));
-  //   }
+  public getBooks = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const queryObject = await this.filteringBooks(req);
+      const findAllBooksData = await this.book.findAllBook(queryObject);
 
-  //   return filteredBooks;
-  // };
-
-  // public getBooks = async (req: Request, res: Response, next: NextFunction) => {
-  //   try {
-  //     const findAllBooksData = await this.book.findAllBook();
-
-  //     res.status(200).json({ data: findAllBooksData, message: 'findAll' });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+      res.status(200).json({ data: findAllBooksData, total: findAllBooksData.length, message: 'findAll' });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   public getMyBooks = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const user = req.user;
-      const findAllBooksData = await this.book.findAllBook(user);
+      const queryObject = await this.filteringBooks(req);
+      const findAllBooksData = await this.book.findAllBook(queryObject, user);
 
-      res.status(200).json({ data: findAllBooksData, message: 'findAll' });
+      res.status(200).json({ data: findAllBooksData, total: findAllBooksData.length, message: 'findAll' });
     } catch (error) {
       next(error);
     }

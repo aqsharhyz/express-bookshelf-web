@@ -1,8 +1,8 @@
 {
   "name": "06-bookshelf-web",
-  "version": "0.1.0",
+  "version": "0.0.5",
   "description": "TypeScript + Mongoose + MongoDB + Express API Server",
-  "author": "",
+  "author": "Aqsha R Malik",
   "license": "ISC",
   "scripts": {
     "start": "npm run build && cross-env NODE_ENV=production node dist/server.js",
@@ -59,6 +59,7 @@
     "@types/swagger-ui-express": "^4.1.3",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
+    "axios": "^1.6.7",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",

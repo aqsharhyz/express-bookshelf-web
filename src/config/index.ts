@@ -7,3 +7,4 @@ export const { MONGO_URI } = process.env;
 export const { JWT_LIFETIME } = process.env;
 
 export const USER_ROLE = ['user', 'admin'];
+export const BOOK_CATEGORY = [];
