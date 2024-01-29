@@ -36,6 +36,10 @@ export class CreateBookDto {
   @IsBoolean()
   @IsOptional()
   finished?: boolean;
+
+  @IsString()
+  @IsOptional()
+  createdBy?: string;
 }
 
 export class UpdateBookDto {
@@ -74,4 +78,8 @@ export class UpdateBookDto {
   @IsBoolean()
   @IsOptional()
   finished?: boolean;
+
+  @IsString()
+  @IsOptional()
+  createdBy?: string;
 }

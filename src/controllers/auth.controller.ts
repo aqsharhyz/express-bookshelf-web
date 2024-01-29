@@ -12,8 +12,10 @@ export class AuthController {
     try {
       const userData: User = req.body;
       const signUpUserData: User = await this.auth.signup(userData);
+      const { cookie } = await this.auth.login(userData);
       signUpUserData.password = '';
 
+      res.setHeader('Set-Cookie', [cookie]);
       res.status(201).json({ data: signUpUserData, message: 'signup' });
     } catch (error) {
       next(error);
@@ -41,6 +43,18 @@ export class AuthController {
 
       res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
       res.status(200).json({ data: logOutUserData, message: 'logout' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // const userData: User = req.body;
+      // const forgotPasswordUserData: User = await this.auth.forgotPassword(userData);
+      // forgotPasswordUserData.password = '';
+      // res.status(200).json({ data: forgotPasswordUserData, message: 'forgotPassword' });
+      const email: string = req.body.email;
     } catch (error) {
       next(error);
     }

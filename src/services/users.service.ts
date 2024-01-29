@@ -3,11 +3,13 @@ import { Service } from 'typedi';
 import { HttpException } from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
 import { UserModel } from '@models/users.model';
+import { userQuery } from '@/interfaces/query/userQuery.interfaces';
 
 @Service()
 export class UserService {
-  public async findAllUser(): Promise<User[]> {
-    const users: User[] = await UserModel.find();
+  public async findAllUser(queryObject?: userQuery): Promise<User[]> {
+    queryObject ? queryObject : (queryObject = {});
+    const users: User[] = await UserModel.find(queryObject);
     return users;
   }
 

@@ -21,6 +21,7 @@ export class BookRoute implements Routes {
       .route(`${this.path}/:id`)
       .get(AuthMiddleware, this.book.getBookById)
       .put(AuthMiddleware, ValidationMiddleware(CreateBookDto, true), this.book.updateBook)
+      .patch(AuthMiddleware, ValidationMiddleware(CreateBookDto, true), this.book.updateBook)
       .delete(AuthMiddleware, this.book.deleteBook);
   }
 }

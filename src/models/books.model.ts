@@ -58,6 +58,27 @@ const BookSchema: Schema = new Schema(
     //   trim: true,
     //   default: 'Other',
     // },
+    // rating: {
+    //   type: Number,
+    //   default: 0,
+    //   min: [0, 'Rating cannot be less than 0'],
+    //   max: [5, 'Rating cannot be more than 5'],
+    // },
+    // tags: {
+    //   type: [String],
+    //   trim: true,
+    //   default: [],
+    // },
+    // access: {
+    //   type: String,
+    //   enum: ['public', 'private'],
+    //   default: 'public',
+    // },
+    // isbn: {
+    //   type: String,
+    //   trim: true,
+    //   maxlength: [20, 'ISBN cannot be more than 20 characters'],
+    // },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -74,5 +95,7 @@ BookSchema.pre('save', function () {
 BookSchema.pre('save', function () {
   this.readPage > this.pageCount ? (this.readPage = this.pageCount) : this.readPage;
 });
+
+// BookSchema.index({ title: 1, createdBy: 1 }, { unique: true });
 
 export const BookModel = model<Book & Document>('Book', BookSchema);

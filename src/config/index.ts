@@ -8,3 +8,13 @@ export const { JWT_LIFETIME } = process.env;
 
 export const USER_ROLE = ['user', 'admin'];
 export const BOOK_CATEGORY = [];
+
+export const operatorMapNumericFilters = {
+  '>': '$gt',
+  '>=': '$gte',
+  '=': '$eq',
+  '<': '$lt',
+  '<=': '$lte',
+};
+
+export const regExNumericFilters = /\b(<|>|>=|=|<|<=)\b/g;

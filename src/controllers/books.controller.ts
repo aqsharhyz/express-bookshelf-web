@@ -1,5 +1,7 @@
+import { operatorMapNumericFilters, regExNumericFilters } from '@/config';
 import { RequestWithUser } from '@/interfaces/auth.interface';
-import { bookQuery } from '@/interfaces/bookQuery.interface';
+import { bookQuery } from '@/interfaces/query/bookQuery.interface';
+import { queryOption } from '@/interfaces/query/queryOption.interface';
 import { BookService } from '@/services/books.service';
 import { NextFunction, Request, Response } from 'express';
 import Container from 'typedi';
@@ -8,8 +10,8 @@ export class BookController {
   public book = Container.get(BookService);
 
   filteringBooks = async (req: RequestWithUser | Request): Promise<bookQuery> => {
-    const { title, author, publisher, reading, finished } = req.query;
-    // year, readPage, pageCount, createdBy
+    const { title, author, publisher, reading, finished, numericFilters } = req.query;
+    // createdBy
     const queryObject: bookQuery = {};
     if (title) queryObject.title = { $regex: title, $options: 'i' };
     if (author) queryObject.author = { $regex: author, $options: 'i' };
@@ -17,15 +19,23 @@ export class BookController {
     if (reading && reading !== 'all') queryObject.reading = reading;
     if (finished && finished !== 'all') queryObject.finished = finished;
 
+    if (numericFilters) {
+      const filters: string = numericFilters.toString().replace(regExNumericFilters, match => `-${operatorMapNumericFilters[match]}-`);
+      const options = ['year', 'readPage', 'pageCount'];
+      filters.split(',').forEach(item => {
+        const [field, operator, value] = item.split('-');
+        if (options.includes(field) && operator && value) queryObject[field] = { [operator]: Number(value) };
+      });
+    }
+
     return queryObject;
   };
 
-  sortingBooks = async (req: RequestWithUser | Request): Promise<any> => {};
-
   public getBooks = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const queryOptions: { sort?; fields?; page?; limit?; skip? } = req.query;
       const queryObject = await this.filteringBooks(req);
-      const findAllBooksData = await this.book.findAllBook(queryObject);
+      const findAllBooksData = await this.book.findAllBook(queryObject, null, queryOptions);
 
       res.status(200).json({ data: findAllBooksData, total: findAllBooksData.length, message: 'findAll' });
     } catch (error) {
@@ -35,9 +45,10 @@ export class BookController {
 
   public getMyBooks = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
+      const queryOptions: queryOption = req.query;
       const user = req.user;
       const queryObject = await this.filteringBooks(req);
-      const findAllBooksData = await this.book.findAllBook(queryObject, user);
+      const findAllBooksData = await this.book.findAllBook(queryObject, user, queryOptions);
 
       res.status(200).json({ data: findAllBooksData, total: findAllBooksData.length, message: 'findAll' });
     } catch (error) {
@@ -59,7 +70,8 @@ export class BookController {
 
   public createBook = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      req.body.createdBy = req.user._id;
+      req.user.role == 'admin' ? (req.body.createdBy ? req.body.createdBy : req.user._id) : (req.body.createdBy = req.user._id);
+
       const bookData = req.body;
       const createBookData = await this.book.createBook(bookData);
 
